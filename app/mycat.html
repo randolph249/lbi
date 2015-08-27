@@ -1,0 +1,21 @@
+<!-- 第一次使用 添加商圈 关注品牌和类目 -->
+<ul class="init_anchor clearfix">
+	<li>
+		<a href="javascript:void(0);" class="selected">我的关注</a>
+	</li>
+</ul>
+<div class="my_cat_brand">
+	<p>我关注的类目：<span>{{myCats.category_full_name}}</span><span class="iconfont icon-edit edit_fav_cat" ng-click="showCatList();"></span></p>
+	<p>我关注的品牌：<span>{{myBrands.brand_full_name}}</span><span class="iconfont icon-edit edit_fav_cat" ng-click="showBrandList();"></span></p>
+</div>
+
+<!-- 所有类目列表 -->
+<div floatwindow title="{{'选择类目'}}" class="floatwindow" flag="displayCatlist">
+	<div allcat super="superCat" confirm="catconfirm(checkedItem);" cancel="catcancel();"></div>
+</div>
+
+<!-- 所有品牌列表 -->
+<div floatwindow title="{{'选择品牌'}}" class="floatwindow" flag="displayBrandlist">
+	<div allbrand super="superCat" confirm="brandconfirm(checkedItem);" cancel="brandcancel();"></div>
+</div>
+

@@ -1,0 +1,17 @@
+<div class='dropdown_toggle' style='width:{{width-22}}px;' ng-click='showMe=!showMe;' ng-class='{open:showMe}'>
+    {{selectedname }}
+    <i class='caret iconfont icon-caret'></i>
+</div>
+<div class="dropdown_menu" style='width:{{width-2}}px;' ng-show='showMe'>
+    <ul>
+        <li class="searchContainer" ng-show="searchEnable">
+            <i class="iconfont icon-search"></i>
+            <input type="text" placeholder='请输入搜索字段' class='searchText' ng-model="model" />
+        </li>
+        <li ng-class='{active:item[passname]==cid}' ng-repeat='item in list | filter:filterText' ng-class='{active:$index==curIndex}' ng-click='chooseId(item[passname],index)'>
+            {{item[displaykey]}}
+        </li>
+    </ul>
+    <div class="paging" ng-transclude ng-show="showTransclude">
+    </div>
+</div>

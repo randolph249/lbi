@@ -1,0 +1,6 @@
+<div class="form_labels_group" ng-if="featureLabel.selects && featureLabel.selects.length" ng-repeat="featureLabel in tags">
+    <label class="form_panel_label">{{featureLabel.tagname}}</label>
+    <div class="form_labels clearfix">
+        <span class="label" ng-class="{checked:checkedMylabels[featureLabel.tagid] && inArray(item.optionvalue,checkedMylabels[featureLabel.tagid])!=-1}" ng-repeat="item in featureLabel.selects" ng-click="selectlabel(featureLabel.tagid,item.optionvalue);">{{item.optionname}}</span>
+    </div>
+</div>

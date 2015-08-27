@@ -1,0 +1,56 @@
+<div class="init_wizard">
+    <ul class="init_anchor clearfix">
+        <li>
+            <a ng-click="step=1"  href="javascript:void(0);" ng-class="{selected:step==1}">1.添加商圈</a>
+        </li>
+        <li>
+            <a ng-click="step=2" href="javascript:void(0);" ng-class="{selected:step==2}">2.关注商品类目和品牌</a>
+        </li>
+        <li>
+            <a ng-click="step=3" href="javascript:void(0);" ng-class="{selected:step==3}">3.完成</a>
+        </li>
+    </ul>
+    <div class="init_stepContent clearfix">
+        <!-- 添加商圈功能  -->
+        <div id="init_step1" class="content add_circle_container clearfix" ng-class="{block:step==1}">
+            <div creatcircle confirmcall="addcircle(params);" cancelcall="cancelcircle();"></div>
+        </div>
+        <!-- 添加商品类目和品牌 -->
+        <div id="init_step2" class="content add_circle_container" ng-class="{block:step==2}">
+            <!-- 关注类目 -->
+            <div class="my_fav_inner">
+                <p class="my_fav_cat">
+                    我关注的商品类目：
+                    <span class="add_fav_cat">{{checked_cat.category_full_name}}</span>
+                    <span ng-if="!checked_cat.hasOwnProperty('name');" ng-click="showCatList();"  class="add_fav_cat">添加类目</span>
+                    <span  ng-click="showCatList();" class="iconfont icon-edit edit_fav_cat"></span>
+                </p>
+                <p class="my_fav_cat">
+                    我关注的商品品牌：
+                    <span class="add_fav_cat">{{checked_brand.brand_full_name}}</span>
+                    <span ng-if="!checked_brand.hasOwnProperty('brand_name');" class="add_fav_cat" ng-click="showBrandList();">添加品牌</span>
+                    <span class="iconfont icon-edit edit_fav_cat" ng-click="showBrandList();"></span>
+                </p>
+            </div>
+            <button type="button" ng-click="confirmcatandbrand();" class="default_btn primary_btn confirm_my_fav">下一步</button>
+            <button type="button" class="default_btn cancel_my_fav">上一步</button>
+        </div>
+        <!-- 设置完成 -->
+        <div id="init_step3" class="content"  ng-class="{block:step==3}">
+            <div class="success_text iconfont icon-checked"></div>
+            <button id="" ng-disabled="!(params.circletype && params.categoryId && params.brandId)" ng-click="completeSet();" class="default_btn primary_btn finish_btn">完成</button>
+        </div>
+    </div>
+    <!-- 所有类目列表 -->
+    <div floatwindow title="{{'选择类目'}}" class="floatwindow" flag="displayCatlist">
+        <div allcat confirm="catconfirm(checkedItem);" cancel="catcancel();"></div>
+    </div>
+
+    <!-- 所有品牌列表 -->
+    <div floatwindow title="{{'选择品牌'}}" class="floatwindow" flag="displayBrandlist">
+        <div allbrand confirm="brandconfirm(checkedItem);" cancel="brandcancel();"></div>
+    </div>
+</div>
+
+
+

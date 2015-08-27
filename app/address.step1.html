@@ -1,0 +1,55 @@
+<div class="left_area" style="width:470px;">
+    <h1 class="supertitle">查看目标人群分布</h1>
+    <div class="form_lables_cont  bottom-shadow container always-visible" perfect-scrollbar heightupdateflag="featureLabels">
+        <!--受众人群-->
+        <div class="form_lables_group crowd_operation">
+            <!-- 受众人群来源 -->
+            <h3 class="title">选择受众类型</h3>
+            <div drop-menu class="dropdown fl" list="crowdSourceList" passname="type" cid="crowdSourceChecked" width="150"></div>
+            <!-- 线下会员文件 -->
+            <div drop-menu ng-show="crowdSourceChecked=='A0'" class="dropdown fl" list="offlineMemberList" cid="offlineMemberCheckedId" width="150"></div>
+            <div drop-menu ng-show="crowdSourceChecked=='A1'" class="dropdown fl" list="onlineTaobaoList" passname="dataId" cid="onlineTaobaoCheckedId" width="150"></div>
+            <div class="clearfix"></div>
+        </div>
+        <!--选择城市-->
+        <div class="form_lables_group crowd_operation">
+            <!-- 受众人群来源 -->
+            <h3 class="title">选择区域</h3>
+            <div class="syscitylist address_citylist" is-local-source="false" source="{{citylist}}" citymenu local-req="true" checkedcall="checkcity(poi);"></div>
+            <div drop-menu class="dropdown fl" list="districtData" cid="curcode" passname="county" displaykey="name" width="100"></div>
+            <div class="clearfix"></div>
+        </div>
+        <div membertags show-switch-tag="false" tags="filterLabels" class="distributeLabels" checked-call="checkedFilterLabels(labels)"></div>
+    </div>
+    <div class="filte_count" ng-show="reqError">
+        人数过少，无法显示
+    </div>
+    <div class="filte_count" ng-show="!reqError">
+        <p class="count">
+            共筛选出
+            <span class="market_people_count">{{ crowdCount | numberformat}}</span>人
+        </p>
+        <button ng-click="secondStep();" type="button" class="default_btn primary_btn market_step1_confirm_btn">下一步</button>
+    </div>
+</div>
+<div class="right_area rel" style="height:100%;">
+    <!-- 商圈城市信息 -->
+    <div class="map_container_tools">
+        <div class="J_openCityList">
+        <span class="floatl cursor J_currentCity">{{cityname}}{{'-'+curcountyname}}</span>
+        </div>
+    </div>
+    <!--网格图图例-->
+    <div class="tileThumb" ng-show="showTileThumb" tilelegend legends="tileLegends" select-call="selectLegends(selected)"></div>
+    <!--城市图例-->
+    <div class="tileThumb" ng-show="!showTileThumb">
+        <div class="tileThumbItem" ng-repeat="item in districtLegend">
+            <span class="fl tileThumbItem_color" style="background:{{item.color}}"></span>
+            <p>{{item.max>150?(item.min+'~'+item.max+'人'):'少量'}}</p>
+        </div>
+    </div>
+    <div amap ng-model="mapObj" center="{{cityname}}" class="map_container">
+    <div amaptile tile-size="{{gridSize}}" tile-params="tileParams"></div>
+        <div amap-area-rank click-enabled="false" zoomvalue="{{curcode}}" zoomkey="county" rank="districtData" rank-legend="{{districtLegend}}" idkey="county" show-item-county="showItemCounty(bound,info);" show-all-countys="showAllCountys();"></div>
+    </div>
+</div>

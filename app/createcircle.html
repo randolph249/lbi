@@ -1,0 +1,68 @@
+<div class="headDialogContainer">
+    <div class="left_area">
+        <div style="height:400px;">
+            <p class="form_panel_note">
+                请设置您所关注的商圈，并在地图中查看覆盖的区域。此后，您还可以在右上角的设置中添加更多的商圈。
+            </p>
+            <div class="form_panel_group input-group clearfix search-group">
+                <span class="iconfont icon-search"></span>
+                <input class="typeahead poisearch" type="text" datasets="typeahead.datasets" options="typeahead.options" sf-typeahead ng-model="poiname"/>
+            </div>
+            <!-- 商圈类型 -->
+            <div class="form_panel_group" ng-init="circletype='circle'">
+                <label for="" class="form_panel_label">
+                    商圈类型：
+                </label>
+                <div class="form_panel_col">
+                    <label for="" ng-click="circleType='0';">
+                        <i class="icon iconfont icon-radio-checked"></i> 圆形商圈
+                    </label>
+                </div>
+            </div>
+            <!-- 圆形商圈的时候到达半径 -->
+            <div class="form_panel_group">
+                <label for="" class="form_panel_label">
+                    商圈半径：
+                </label>
+                <div class="form_panel_col rel sidebarCont">
+                    <div class="radius_slider" slidebar ng-model="radius" options="slidebar.options" update-slider="updateRadius(value)"></div>
+                    <div class="radius_value_tip" ng-style="{left:radius*100/slidebar.options.max+'%'}">{{radius|converttokm}}KM</div>
+                    <span class="radius_min_tip fl">
+                        {{slidebar.options.min | converttokm}}KM
+                    </span>
+                    <span class="radius_max_tip fr">
+                        {{slidebar.options.max | converttokm}}KM
+                    </span>
+                </div>
+            </div>
+            <!-- 命名商圈 -->
+            <div class="form_panel_group">
+                <label for="" class="form_panel_label">
+                    命名商圈：
+                </label>
+                <div class="form_panel_col">
+                    <!-- -->
+                    <input type="text" ng-model="name" class="form-control-text">
+                </div>
+            </div>
+        </div>
+        <button type="button" ng-click="emitToParent();" ng-disabled="isOk();" class="default_btn primary_btn add_circle_btn">
+            添加到我的商圈
+        </button>
+        <button type="button" ng-click="cancel()" class="default_btn cancle_circle_btn">
+            取消
+        </button>
+    </div>
+    <!-- 添加商圈地图 -->
+    <div class="right_area">
+        <!-- 商圈城市信息 -->
+        <div class="map_container_tools">
+            <div citymenu local-req="true" checkedcall="checkcity(poi);"></div>
+        </div>
+        <!-- 添加商圈地图 -->
+        <div amap ng-model="mapObj" center="{{center}}" class="map_container">
+            <div amapcovers covers="{{[{lng:lng,lat:lat,radius:radius}]}}"></div>
+            <div amapsearch city="{{cityname}}" searchkey="{{poiname}}"></div>
+        </div>
+    </div>
+</div>

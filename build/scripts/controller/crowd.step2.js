@@ -1,0 +1,1 @@
+lbiApp.controller("createMarket.step2Ctrl",["$scope","$state",function(a,b){a.$on("$stateChangeSuccess",function(b,c,d){a.startDate=d.startdate,a.endDate=d.enddate,a.crowdcount=d.count}),a.datepickeroptions={},a.back=function(){b.go("index.crowd.step1")},a.createComplete=function(){a.$emit("PASS_CROWD_PARAMS",{crowdName:a.crowdName,validetime:a.curDate})}}]);

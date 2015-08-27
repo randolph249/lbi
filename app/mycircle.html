@@ -1,0 +1,49 @@
+<!-- 第一次使用 添加商圈 关注品牌和类目 -->
+<ul class="init_anchor clearfix">
+	<li>
+		<a href="javascript:void(0);" ng-class="{selected:curtab=='circle'}">我的商圈</a>
+	</li>
+	<!-- <li>
+				<a href="javascript:void(0);" ng-click="redirecToSubRouter('shop')" ng-class="{selected:curtab=='shop'}">我的店铺</a>
+	</li> -->
+</ul>
+<div>
+	<button type="button" ng-click="showAddCircle();" class="default_btn primary_btn redirect_circle_link">添加商圈</button>
+	<table class="table circleList">
+		<thead>
+			<tr>
+				<th>序号</th>
+				<th>商圈名称</th>
+				<th>所属城市</th>
+				<th>上传时间</th>
+				<th>操作</th>
+			</tr>
+		</thead>
+		<tbody>
+			<!--如果商圈长度等于1 不允许执行删除-->
+			<tr ng-repeat="item in circlelist">
+				<td>
+					{{(pageNo-1)*10+$index+1 | tripledigit}}
+				</td>
+				<td>
+					{{item.name}}
+				</td>
+				<td>{{item.city}}</td>
+				<td>
+					{{item.createtime}}
+				</td>
+				<td>
+					<span ng-if="circlelist.length!==1 || totalCount!==1" class="delHandler"
+						ng-click="delItem(item,$index)">
+						删除
+					</span>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+	<div ng-show="totalCount>1" paging page="pageNo" page-size="pageSize" total="totalCount" paging-action="paging('Paging Clicked', page)">
+	</div>
+</div>
+
+<div ui-view></div>
+<!-- 添加商圈浮动窗 -->

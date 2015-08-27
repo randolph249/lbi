@@ -1,0 +1,1 @@
+var lbiApp=angular.module("lbiApp");lbiApp.controller("mySetCtrl",["$scope","$state",function(a,b){a.redirecToSubRouter=function(a){b.go("index.set."+a)},a.$on("$stateChangeSuccess",function(b,c){a.curtab=c.name.replace("index.set.","")})}]);

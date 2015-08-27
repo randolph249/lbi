@@ -1,0 +1,27 @@
+<div class='tip' style='width:{{width-32}}px;' ng-click='showMe=!showMe;' ng-class='{open:showMe}'>
+    {{checkedList.length?("已选中"+checkedList.length+"个商圈"):placeHolder}}
+    <i class='caret iconfont icon-caret'></i>
+</div>
+<div class='multiple_dropdown_menu' ng-show='showMe'>
+    <!-- closeBtn -->
+    <i class="iconfont icon-close01 closeBtn" ng-click="showMe=false;"></i>
+    <ul>
+        <!-- 执行检索 -->
+        <li class="searchContainer" ng-show="searchEnable">
+            <i class="iconfont icon-search"></i>
+            <input type="text" placeholder='请输入搜索字段' class='searchText' ng-model="model"/>
+        </li>
+        <li  ng-class="{checked:isChecked(item[passname])}" class="multipleoption" ng-repeat='item in list' ng-click='toggleItem(item[passname])'>
+            {{item[displaykey]}}
+            <i class="iconfont icon-check" ng-class="{'icon-circleremove':isChecked(item[passname]),'icon-check':!isChecked(item[passname])}"></i>
+        </li>
+        <!-- 执行翻页 -->
+        <li class="elseContainer">
+            <!-- 全选或者非全选 -->
+            <label for="" ng-click="chooseAll();">
+                <i class="iconfont icon-quanxuan" title="全选"></i> 全选
+            </label>
+            <p class="paging" ng-transclude></p>
+        </li>
+    </ul>
+</div>

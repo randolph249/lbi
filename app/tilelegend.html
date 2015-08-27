@@ -1,0 +1,4 @@
+<div class="tileThumbItem" ng-repeat="item in legends" ng-click="toggleItem(item);">
+  <i class="iconfont icon-checkboxuncheck" ng-class="{iconchecked:isChecked(item)}" style="color:{{item.color}}"></i>
+  <p>{{Number(item.max)>150?(item.min+'~'+item.max+'人'):'少量'}}</p>
+</div>

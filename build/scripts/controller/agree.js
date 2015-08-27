@@ -1,0 +1,1 @@
+lbiApp.controller("agreeCtrl",["$scope","lbiService","$state","SweetAlert",function(a,b,c,d){a.sign_agreement=function(){b("sign_agreement",{},"POST").then(function(){d.swal({title:"成功签订协议!",confirmButtonColor:"#399eee",confirmButtonText:"确定"},function(){c.go("index.normal")})})}}]);

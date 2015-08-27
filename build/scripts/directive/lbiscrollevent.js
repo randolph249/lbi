@@ -1,0 +1,1 @@
+lbiApp.directive("lbiScrollEvent",["safeApply",function(a){var b=$(window).height();$(window).resize(function(){b=$(window).height()});var c=function(c,d){var e=$(d).offset().top;$(document).scroll(function(){var d=$(document).scrollTop();a(c,function(){c.lbiScrollEvent({flag:b+d>e})})})};return{scope:{lbiScrollEvent:"&"},link:c}}]);

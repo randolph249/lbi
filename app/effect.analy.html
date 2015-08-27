@@ -1,0 +1,46 @@
+<div class="circlerank_operation clearfix">
+    <label for="" class="activeDatelabel">选择时间区间:</label>
+    <input type="text" ng-model="startDate" datepicker class="analydatepicker" number-of-months="1" />
+    <label for="" class="activeDatelabel">至</label>
+    <input type="text" ng-model="endDate" datepicker class="analydatepicker" number-of-months="1" />
+</div>
+<div class="analy_unit">
+    <h1 class="analy_title">关键效果</h1>
+    <table class="table circleList">
+        <thead>
+            <tr>
+                <th ng-repeat="item in effectItems">{{item.name}}</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td ng-repeat="item in effectItems">
+                    {{totalStat[item.type]}}
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <div drop-menu class="dropdown effectchartdropdown" width="130" list="effectItems" displaykey="name" passname="type" cid="effectSingeType"></div>
+    <div class="chartcont" brix-chart type="line" xlabel="line" datasource="{{detailStat[effectSingeType]}}" id="keyEffectChart" valueSuffix="{{isSuffixPercent(effectSingeType)?'%':''}}"></div>
+
+</div>
+<div class="analy_unit">
+    <h1 class="analy_title">点击效果</h1>
+    <table class="table circleList">
+        <thead>
+            <tr>
+                <th ng-repeat="item in clickItems">{{item.name}}</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td ng-repeat="item in clickItems">
+                    {{totalStat[item.type]}}
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <div drop-menu class="dropdown effectchartdropdown" width="130" list="clickItems" displaykey="name" passname="type" cid="clickSingeType"></div>
+    <div class="chartcont" brix-chart type="line" xlabel="line" datasource="{{detailStat[clickSingeType]}}" id="clickEffectChart"></div>
+
+</div>

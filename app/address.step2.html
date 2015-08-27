@@ -1,0 +1,113 @@
+<div class="left_area" style="width:470px;">
+    <h1 class="supertitle">周边POI分析</h1>
+    <div class="form_lables_group crowd_operation">
+        <!-- 选择POI类型 -->
+        <h3 class="title">选择POI类型<span class="note">(最多支持3种)</span></h3>
+        <div class="poicheckboxes">
+            <p ng-repeat="(code,name) in poilist" class="poicheckbox" ng-click="togglePoi(code)">
+                <i class="iconfont icon-checkbox fl" ng-class="{'icon-checkboxselected':poiCheckedList.join(',').indexOf(code)!=-1}"></i>
+                <span class="text fl">{{name}}</span>
+            </p>
+        </div>
+    </div>
+    <div class="form_lables_group" ng-init="curPoiTab='targetAround'">
+        <ul class="around_poi_tab">
+            <li class="target_around_poi" ng-click="curPoiTab='targetAround'" ng-class="{cur_poi_tab:curPoiTab=='targetAround'}">目标区域内POI</li>
+            <li class="store_around_poi" ng-click="curPoiTab='storeAround'" ng-class="{cur_poi_tab:curPoiTab=='storeAround'}">门店周边POI</li>
+        </ul>
+    </div>
+    <!--门店周边操作-->
+    <div ng-show="curPoiTab=='storeAround'">
+        <div class="form_lables_group store_operation">
+            <p class="storeDataName">门店地址数据：{{filename}}</p>
+            <p class="showStoreCheckbox" ng-click="toggleStores();">
+                <i class="iconfont icon-checkbox fl" ng-class="{'icon-checkboxselected ':storestatus=='show'}"></i>
+                <span class="text fl">显示所有门店</span>
+            </p>
+        </div>
+        <div class="form_lables_group storelistCont">
+            <table class="table">
+                <tbody>
+                    <tr>
+                        <td>门店名称</td>
+                        <td ng-repeat="item in poiCheckedList">{{poilist[item]}}</td>
+                    </tr>
+                    <tr ng-repeat="item in storelist">
+                        <td>{{item.name}}</td>
+                        <td ng-click="getNearPoiCount(storeNearPoiList[item.x+','+item.y][type],item,type);" ng-if="poiCheckedList.join(',').indexOf(type)!=-1" ng-repeat="type in poiCheckedList" class="nearPoiCount">
+                            {{storeNearPoiList[item.x+','+item.y][type]['count']}}个
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div multiple-drop-menu-page page-no="{{storepage}}" total-page="storetotal" paging-action="storepaging(page)" class="storePageCont"></div>
+        </div>
+    </div>
+    <!-- 目标区域内操作 -->
+    <div ng-show="curPoiTab=='targetAround'">
+        <div class="form_lables_group addtargetcircletip">
+            <i class="iconfont icon-questionfill"></i>地图上右键设置目标区域，位置点周边<span>1KM</span>半径生成目标区域
+        </div>
+        <div class="form_lables_group storelistCont">
+            <table class="table">
+                <tbody>
+                    <tr>
+                        <td>目标区域列表</td>
+                        <td ng-repeat="item in poiCheckedList">{{poilist[item]}}</td>
+                        <td width="60">操作</td>
+                    </tr>
+                    <tr ng-repeat="item in targetPoilist">
+                        <!-- 目标区域名称 只读 -->
+                        <td ng-show="item.status=='read'">
+                            <span ng-click="item.status='write';">{{item.name}}</span>
+                        </td>
+                        <!-- 目标区域名称 可写 -->
+                        <td ng-show="item.status=='write'">
+                            <input ng-blur="item.status='read'" type="text" ng-model="item.name" />
+                        </td>
+                        <td ng-click="getNearPoiCount(item.relatepois[type],item,type);" class="nearPoiCount" ng-repeat="type in poiCheckedList">
+                            {{item.relatepois[type]['count']}}
+                        </td>
+                        <td class="nearPoiCount" width="60">
+                            <span ng-click="targetPoilist.splice($index,1)">删除</span>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="form_lables_group" ng-click="printTargetPoiInfos();">
+            <a class="printlink" ng-class="{disabled:targetPoilist.length==0}" href="/lbi/brand/print?{{printparams}}" target="_blank">
+          查看门店是否在目标区域内
+          </a>
+        </div>
+    </div>
+    <div class="filte_count" ng-if="!nextDisabled">
+        <button ng-click="back();" type="button" class="default_btn primary_btn market_step1_confirm_btn">上一步</button>
+    </div>
+</div>
+<div class="right_area rel" style="height:100%;">
+    <!-- 商圈城市信息 -->
+    <div class="map_container_tools">
+        <div class="J_openCityList">
+            <span class="floatl cursor J_currentCity">{{cityname}}{{'-'+districtname}}</span>
+        </div>
+    </div>
+    <!--网格图图例-->
+    <div class="tileThumb" tilelegend legends="tileLegends" select-call="selectLegends(selected)"></div>
+    <div amap ng-model="mapObj" class="map_container" bound="{{bound}}">
+        <!-- 门店为中心 一公里半径的circle -->
+        <div amapdrawcover cover-obj="{{storeNearCircle}}"></div>
+        <!-- 网格图 -->
+        <div amaptile tile-size="{{gridSize}}" tile-params="tileParams"></div>
+        <!-- 门店列表icons -->
+        <div amapicons marklnglats="{{storeiconlist}}" tipkey="name"></div>
+        <!-- icon 点击查看门店/目标点附近指定POI类型的POI店铺 -->
+        <div amapicons marklnglats="{{storeNearTipLnglat}}" icontext="{{storeNearPageIndex==1?'点击查看':'下一组'}}" iconclass="storeNearTip" icon-click="showNearPoileast50(poi);"></div>
+        <!-- 门店/目标点附近1KM内指定POI类型的POI 店铺-->
+        <div amapicons tipkey="name" marklnglats="{{storeNearPoiByslice}}" iconclass="amapicon-normal storeNearPoi"></div>
+        <!-- 点击添加商圈 -->
+        <div amapmenu add-enable="{{curPoiTab=='targetAround'}}" click-call="addTargetCircle(e);"></div>
+        <!-- 目标区域circle 半径1KM-->
+        <div amapcovers covers="{{targetPoilist}}" is-fit-view="false"></div>
+    </div>
+</div>
